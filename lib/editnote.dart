@@ -83,7 +83,7 @@ class _editnoteState extends State<editnote> {
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 2,
-                          backgroundColor: Color.fromARGB(255, 84, 227, 201),
+                          backgroundColor: Color.fromARGB(255, 238, 69, 46),
                           textColor: Colors.white);
                       widget.docid.reference.delete().whenComplete(() {
                         Navigator.pushReplacement(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'main.dart';
@@ -17,6 +18,11 @@ class _addnoteState extends State<addnote> {
   CollectionReference ref = FirebaseFirestore.instance.collection('notes');
 
   final _formKey = GlobalKey<FormState>();
+
+  void formatSpace() {
+    title.text = title.text.replaceAll(" ", "");
+    content.text = content.text.replaceAll(" ", "");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +61,14 @@ class _addnoteState extends State<addnote> {
                   height: 10,
                 ),
                 Container(
-                  height: 100,
                   decoration: BoxDecoration(border: Border.all()),
                   child: TextFormField(
                     controller: content,
-                    expands: true,
+                    keyboardType: TextInputType.name,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(
+                          r'^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')),
+                    ],
                     maxLines: null,
                     decoration: InputDecoration(
                       hintText: 'content',
@@ -77,7 +86,8 @@ class _addnoteState extends State<addnote> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    if (title.text == "" && content.text == "") {
+                    formatSpace();
+                    if (title.text == "" || content.text == "") {
                       Fluttertoast.showToast(
                           msg: "Please Provide Valid data",
                           toastLength: Toast.LENGTH_SHORT,
